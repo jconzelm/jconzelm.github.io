@@ -78,28 +78,41 @@
   }
   .nav { display: flex; align-items: baseline; justify-content: space-between;
     gap: 16px; flex-wrap: wrap; padding: 14px 24px; max-width: var(--maxw); margin: 0 auto; }
-  .brand { font-family: var(--serif); font-weight: 600; font-size: 1.1rem; color: var(--ink); }
+  .brand { font-family: var(--serif); font-weight: 600; font-size: 1.1rem; color: var(--ink);
+    display: inline-flex; align-items: center; gap: 12px; }
   .brand:hover { text-decoration: none; }
+  .brand-logo { height: 26px; width: auto; display: block; flex: none; }
   .nav-links { display: flex; gap: 22px; flex-wrap: wrap; }
   .nav-links a { font-family: var(--sans); font-size: 0.78rem; font-weight: 500;
     letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
   .nav-links a:hover { color: var(--accent); text-decoration: none; }
 
+  /* ---- hero / about: photo on left, all descriptive text on right ---- */
   .hero { padding: 72px 0 36px; }
-  .hero-top { display: flex; gap: 32px; align-items: center; flex-wrap: wrap; }
-  .portrait {
-    width: 132px; height: 132px; flex: none; border-radius: 50%;
-    object-fit: cover;
-    box-shadow: 0 6px 22px rgba(20,30,40,0.14);
-    border: 3px solid #fff;
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 290px minmax(0, 1fr);
+    gap: 44px;
+    align-items: start;
   }
+  .portrait {
+    width: 100%;
+    aspect-ratio: 2 / 3;     /* enforced — works regardless of your actual photo's ratio */
+    object-fit: cover;
+    border-radius: 6px;
+    background: var(--card);
+    box-shadow: 0 6px 22px rgba(20,30,40,0.12);
+  }
+  .hero-content > * + * { margin-top: 24px; }
+  .hero-content h1 + .role { margin-top: 6px; }   /* tight pair */
   h1 { font-family: var(--serif); font-weight: 500; font-size: 2.8rem; line-height: 1.06;
     margin: 0 0 6px; letter-spacing: -0.015em; }
   .role { font-family: var(--sans); font-size: 1rem; color: var(--muted); margin: 0; }
   .role strong { color: var(--ink); font-weight: 600; }
-  .bio { margin: 28px 0 0; max-width: 70ch; }
+  .bio { margin: 0; }
   .bio p { margin: 0 0 14px; }
-  .links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+  .bio p:last-child { margin-bottom: 0; }
+  .links { display: flex; flex-wrap: wrap; gap: 10px; }
   .links a { font-family: var(--sans); font-size: 0.82rem; font-weight: 500;
     border: 1px solid var(--line); border-radius: 999px; padding: 7px 15px; color: var(--ink);
     transition: border-color .15s, color .15s, background .15s; }
@@ -132,7 +145,7 @@
   /* ---- featured card: title at top, body + figure below side-by-side ---- */
   .card {
     display: grid;
-    grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
     grid-template-areas:
       "head head"
       "body figure";
@@ -197,6 +210,14 @@
     body { font-size: 17px; }
     h1 { font-size: 2.2rem; }
     .sec-head h2 { font-size: 1.9rem; }
+    .hero-grid {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+    .portrait {
+      max-width: 240px;
+      justify-self: start;
+    }
     .card {
       grid-template-columns: 1fr;
       grid-template-areas:
@@ -207,7 +228,7 @@
       padding: 24px;
     }
     .nav { padding: 12px 18px; }
-    .portrait { width: 112px; height: 112px; }
+    .brand-logo { height: 22px; }
   }
 
   /* ---- restrained scroll-in: fade + 16px rise, ~520ms, once ---- */
@@ -232,7 +253,10 @@
 
 <header>
   <nav class="nav">
-    <a class="brand" href="#about">Johnathan Conzelmann</a>
+    <a class="brand" href="#about">
+      Johnathan Conzelmann
+      <img class="brand-logo" src="images/denison-d.png" alt="Denison University">
+    </a>
     <div class="nav-links">
       <a href="#about">About</a>
       <a href="#research">Research</a>
@@ -247,22 +271,24 @@
 
   <!-- ===================== ABOUT ===================== -->
   <section class="hero" id="about">
-    <div class="hero-top reveal">
+    <div class="hero-grid reveal">
       <img class="portrait" src="images/headshot.jpg" alt="Johnathan G. Conzelmann">
-      <div>
-        <h1>Johnathan G. Conzelmann</h1>
-        <p class="role"><strong>Assistant Professor of Economics</strong> &nbsp;·&nbsp; Denison University</p>
+      <div class="hero-content">
+        <div>
+          <h1>Johnathan G. Conzelmann</h1>
+          <p class="role"><strong>Assistant Professor of Economics</strong> &nbsp;·&nbsp; Denison University</p>
+        </div>
+        <div class="bio">
+          <p>I am an economist studying labor markets and the economics of education. My work focuses on higher education — how colleges produce degrees, how students and institutions respond to the labor market, and how student-loan and financial-aid policy shape the outcomes of early-career adults. I use administrative and large-scale survey data with a strong emphasis on causal identification.</p>
+          <p>I earned my Ph.D. in Public Policy from the University of North Carolina at Chapel Hill. Before UNC, I spent several years as an analyst at RTI International and in partnership with the U.S. Department of Education's National Center for Education Statistics (NCES). My research has appeared in the <em>Journal of Policy Analysis and Management</em>, <em>Education Finance and Policy</em>, and <em>Educational Researcher</em>, and in policy outlets including the Brookings Institution and the W.E. Upjohn Institute.</p>
+        </div>
+        <div class="links">
+          <a href="cv.pdf">Curriculum Vitae</a>
+          <a href="mailto:john.conzelmann@denison.edu">Email</a>
+          <a href="https://github.com/jconzelm">GitHub</a>
+          <a href="https://bsky.app/profile/johnconz.bsky.social">Bluesky</a>
+        </div>
       </div>
-    </div>
-    <div class="bio reveal">
-      <p>I am an economist studying labor markets and the economics of education. My work focuses on higher education — how colleges produce degrees, how students and institutions respond to the labor market, and how student-loan and financial-aid policy shape the outcomes of early-career adults. I use administrative and large-scale survey data with a strong emphasis on causal identification.</p>
-      <p>I earned my Ph.D. in Public Policy from the University of North Carolina at Chapel Hill. Before UNC, I spent several years as an analyst at RTI International and in partnership with the U.S. Department of Education's National Center for Education Statistics (NCES). My research has appeared in the <em>Journal of Policy Analysis and Management</em>, <em>Education Finance and Policy</em>, and <em>Educational Researcher</em>, and in policy outlets including the Brookings Institution and the W.E. Upjohn Institute.</p>
-    </div>
-    <div class="links reveal">
-      <a href="cv.pdf">Curriculum Vitae</a>
-      <a href="mailto:john.conzelmann@denison.edu">Email</a>
-      <a href="https://github.com/jconzelm">GitHub</a>
-      <a href="https://bsky.app/profile/johnconz.bsky.social">Bluesky</a>
     </div>
   </section>
 
