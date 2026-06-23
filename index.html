@@ -19,29 +19,6 @@
   gtag('config', 'G-32E80HBQ8B');
 </script>
 
-<!--
-  ============================================================
-  FILE LAYOUT
-  ============================================================
-  Repository contents:
-    index.html             ← this file (text + structure)
-    Conzelmann_CV.pdf                 ← your CV (upload separately)
-    images/
-      headshot.jpg         ← your photo
-      fig_diversification.jpg
-      fig_idr.jpg
-      fig_skills.jpg
-      fig_grads.jpg
-
-  TO CHANGE A FIGURE: replace the corresponding file in images/.
-  The HTML doesn't need to be touched.
-
-  TO CHANGE TEXT: find the words below and type over them.
-  TO RECOLOR: edit the variables in :root below — --accent is the
-  main one. Change that single value and the whole page re-themes.
-  ============================================================
--->
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -50,7 +27,7 @@
   :root {
     --ink:      #18181b;
     --muted:    #5f6168;
-    --accent:   #1f5e5b;   /* deep teal — change this one value to re-theme */
+    --accent:   #1f5e5b;
     --accent-2: #173f3d;
     --paper:    #ffffff;
     --card:     #f6f7f7;
@@ -87,7 +64,7 @@
     letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
   .nav-links a:hover { color: var(--accent); text-decoration: none; }
 
-  /* ---- hero / about: photo on left, all descriptive text on right ---- */
+  /* ---- hero ---- */
   .hero { padding: 72px 0 36px; }
   .hero-grid {
     display: grid;
@@ -97,14 +74,14 @@
   }
   .portrait {
     width: 100%;
-    aspect-ratio: 2 / 3;     /* enforced — works regardless of your actual photo's ratio */
+    aspect-ratio: 2 / 3;
     object-fit: cover;
     border-radius: 6px;
     background: var(--card);
     box-shadow: 0 6px 22px rgba(20,30,40,0.12);
   }
   .hero-content > * + * { margin-top: 24px; }
-  .hero-content h1 + .role { margin-top: 6px; }   /* tight pair */
+  .hero-content h1 + .role { margin-top: 6px; }
   h1 { font-family: var(--serif); font-weight: 500; font-size: 2.8rem; line-height: 1.06;
     margin: 0 0 6px; letter-spacing: -0.015em; }
   .role { font-family: var(--sans); font-size: 1rem; color: var(--muted); margin: 0; }
@@ -119,21 +96,20 @@
   .links a:hover { border-color: var(--accent); color: var(--accent);
     text-decoration: none; background: #f3f7f6; }
 
-  /* ---- LARGER, CLEARER SECTION HEADINGS ---- */
+  /* ---- SECTION HEADINGS: section NAME is the big one ---- */
   section { padding: 60px 0 30px; }
   .sec-head {
     border-bottom: 2px solid var(--ink);
     padding-bottom: 14px;
     margin: 0 0 36px;
   }
-  .sec-label {
-    font-family: var(--sans); font-size: 0.72rem; font-weight: 700;
-    letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent);
-    margin: 0 0 6px;
-  }
   .sec-head h2 {
-    font-family: var(--serif); font-weight: 600; font-size: 2.4rem;
-    margin: 0; letter-spacing: -0.015em; line-height: 1.1;
+    font-family: var(--serif); font-weight: 600; font-size: 3rem;
+    margin: 0; letter-spacing: -0.02em; line-height: 1.05;
+  }
+  .sec-sub {
+    font-family: var(--sans); font-size: 0.88rem; font-weight: 500;
+    color: var(--muted); margin: 6px 0 0; letter-spacing: 0.01em;
   }
   .sub-label {
     font-family: var(--sans); font-size: 0.68rem; font-weight: 600;
@@ -142,7 +118,7 @@
     padding-bottom: 6px; border-bottom: 1px solid var(--line);
   }
 
-  /* ---- featured card: title at top, body + figure below side-by-side ---- */
+  /* ---- featured card (default: figure on right) ---- */
   .card {
     display: grid;
     grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
@@ -160,6 +136,13 @@
   .card-head { grid-area: head; }
   .card > .body   { grid-area: body; }
   .card > .figure { grid-area: figure; }
+  /* Variant: figure on left, body on right */
+  .card.figure-left {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    grid-template-areas:
+      "head   head"
+      "figure body";
+  }
   .card:hover { box-shadow: 0 14px 34px rgba(20,30,40,0.10); transform: translateY(-3px); border-color: #dcdedd; }
   .tag {
     display: inline-block; background: var(--accent); color: #fff;
@@ -206,19 +189,25 @@
   footer a { color: var(--muted); }
   footer a:hover { color: var(--accent); }
 
+  /* ---- MOBILE: centered hero, clean role line break, smaller section headers ---- */
   @media (max-width: 760px) {
     body { font-size: 17px; }
     h1 { font-size: 2.2rem; }
-    .sec-head h2 { font-size: 1.9rem; }
+    .sec-head h2 { font-size: 2.3rem; }
     .hero-grid {
       grid-template-columns: 1fr;
       gap: 28px;
+      justify-items: center;
+      text-align: center;
     }
-    .portrait {
-      max-width: 240px;
-      justify-self: start;
-    }
-    .card {
+    .portrait { max-width: 240px; }
+    .hero-content { width: 100%; }
+    .role-sep { display: none; }
+    .role-inst { display: block; }
+    .bio p { text-align: left; }
+    .links { justify-content: center; }
+    .card,
+    .card.figure-left {
       grid-template-columns: 1fr;
       grid-template-areas:
         "head"
@@ -230,8 +219,11 @@
     .nav { padding: 12px 18px; }
     .brand-logo { height: 22px; }
   }
+  @media (max-width: 420px) {
+    h1 { font-size: 1.95rem; }
+    .sec-head h2 { font-size: 2rem; }
+  }
 
-  /* ---- restrained scroll-in: fade + 16px rise, ~520ms, once ---- */
   .reveal { opacity: 0; transform: translateY(16px);
     transition: opacity 520ms ease-out, transform 520ms ease-out;
     will-change: opacity, transform; }
@@ -276,7 +268,7 @@
       <div class="hero-content">
         <div>
           <h1>Johnathan G. Conzelmann</h1>
-          <p class="role"><strong>Assistant Professor of Economics</strong> &nbsp;·&nbsp; Denison University</p>
+          <p class="role"><strong>Assistant Professor of Economics</strong><span class="role-sep"> &nbsp;·&nbsp; </span><span class="role-inst">Denison University</span></p>
         </div>
         <div class="bio">
           <p>I am an economist studying labor markets and the economics of education. My work focuses on higher education — how colleges produce degrees, how students and institutions respond to the labor market, and how student-loan and financial-aid policy shape the outcomes of early-career adults. I use administrative and large-scale survey data with a strong emphasis on causal identification.</p>
@@ -295,8 +287,8 @@
   <!-- ===================== RESEARCH ===================== -->
   <section id="research">
     <div class="sec-head reveal">
-      <p class="sec-label">Research</p>
-      <h2>Selected work</h2>
+      <h2>Research</h2>
+      <p class="sec-sub">Selected work</p>
     </div>
 
     <article class="card reveal">
@@ -390,8 +382,8 @@
   <!-- ===================== TEACHING ===================== -->
   <section id="teaching">
     <div class="sec-head reveal">
-      <p class="sec-label">Teaching</p>
-      <h2>In the classroom</h2>
+      <h2>Teaching</h2>
+      <p class="sec-sub">In the classroom</p>
     </div>
     <p class="lead reveal">I focus my teaching on transferable skills, policy relevance, and humanity. Students leave my courses able to analyze social and policy problems using economic theory and empirical tools.</p>
 
@@ -411,15 +403,28 @@
   <!-- ===================== POLICY ===================== -->
   <section id="policy">
     <div class="sec-head reveal">
-      <p class="sec-label">Policy</p>
-      <h2>Briefs &amp; policy engagement</h2>
+      <h2>Policy</h2>
+      <p class="sec-sub">Briefs &amp; policy engagement</p>
     </div>
     <p class="policy-note reveal">My research speaks directly to higher education and workforce policy. Below, my policy work and publications are organized broadly by level of government it most closely relates to — federal accountability and student-aid design, state and regional investment in education, and institutional or broader sector commentary.</p>
 
     <p class="sub-label">Federal</p>
+
+    <article class="card reveal">
+      <div class="card-head">
+        <span class="tag">Featured · 2025</span>
+        <h3><a href="https://www.american.edu/spa/peer/upload/grads-on-the-go_rpt_final.pdf">What the Migration of College Graduates Means for Earnings-Based Accountability Metrics</a></h3>
+        <p class="meta">with Steven Hemelt, Brad Hershbein, Andrew Simon, and Kevin Stange · PEER, 2025</p>
+      </div>
+      <div class="body">
+        <p class="summary">Federal earnings-based college accountability metrics typically benchmark graduates against the labor market of the state where the college is located. But graduates often move to places with very different cost of living, undermining many state-based comparisons.</p>
+      </div>
+      <figure class="figure">
+        <img src="images/fig_peer_costliving.jpg" alt="Ridgeline density plot comparing cost of living between graduates' actual locations and their college's metro area, by college type">
+        <figcaption>Cost of living: graduates' actual locations vs. college's own metro area, by college type.</figcaption>
+      </figure>
+    </article>
     <ul class="reflist">
-      <li class="reveal"><span class="title"><a href="https://www.american.edu/spa/peer/upload/grads-on-the-go_rpt_final.pdf">What the Migration of College Graduates Means for Earnings-Based Accountability Metrics</a></span>
-        <div class="rmeta">with Steven Hemelt, Brad Hershbein, Andrew Simon, and Kevin Stange · PEER Postsecondary Research Brief, 2025</div></li>
       <li class="reveal"><span class="title"><a href="https://www.brookings.edu/articles/financial-and-student-loan-illiteracy-among-us-college-students/">Financial and Student Loan (Il)literacy Among US College Students</a></span>
         <div class="rmeta">with T. Austin Lacy · Brookings Institution, Brown Center Chalkboard, 2018</div></li>
       <li class="reveal"><span class="title"><a href="https://www.brookings.edu/articles/the-tension-between-student-loan-accountability-and-income-driven-repayment-plans/">The Tension Between Student Loan Accountability and Income-Driven Repayment Plans</a></span>
@@ -429,11 +434,25 @@
     </ul>
 
     <p class="sub-label">State &amp; Regional</p>
+
+    <article class="card figure-left reveal">
+      <div class="card-head">
+        <span class="tag">Featured · 2022</span>
+        <h3><a href="https://ed.unc.edu/wp-content/uploads/2023/02/NC_System_Policy_Brief.pdf">Understanding the Labor Markets for Graduates of UNC System Institutions</a></h3>
+        <p class="meta">with Steven Hemelt · NC Education Futures Initiative, 2022</p>
+      </div>
+      <div class="body">
+        <p class="summary">How efficiently does state funding produce in-state graduates? Across UNC System institutions, graduates retained per $100,000 of state investment vary widely, shaping how public dollars translate into North Carolina's labor market.</p>
+      </div>
+      <figure class="figure">
+        <img src="images/fig_nc_funding.jpg" alt="Horizontal bar chart of graduates retained in North Carolina per $100,000 of state expenditures by UNC System institution, with UNC Wilmington highest at 1.55 and UNC School of the Arts lowest at 0.19">
+        <figcaption>Graduates retained in NC per $100,000 of state expenditures, by institution.</figcaption>
+      </figure>
+    </article>
+
     <ul class="reflist">
       <li class="reveal"><span class="title">Evaluation of Ohio and Kentucky Workforce aligned financial aid policies</span>
         <div class="rmeta">with Riley Acton &amp; Raj Darolia · Arnold Ventures, Ohio Department of Higher Education · ongoing</div></li>
-      <li class="reveal"><span class="title"><a href="https://ed.unc.edu/wp-content/uploads/2023/02/NC_System_Policy_Brief.pdf">Understanding the Labor Markets for Graduates of UNC System Institutions</a></span>
-        <div class="rmeta">with Steven Hemelt · North Carolina Education Futures Initiative, 2022</div></li>
     </ul>
 
     <p class="sub-label">Institution &amp; Sector Commentary</p>
@@ -451,14 +470,11 @@
     © <span id="yr"></span> Johnathan G. Conzelmann ·
     <a href="mailto:john.conzelmann@denison.edu">john.conzelmann@denison.edu</a> ·
     Department of Economics, Denison University
-    <!-- Visitor analytics (Google Analytics, ID G-32E80HBQ8B) is installed in the <head> above. -->
   </footer>
 </main>
 
 <script>
   document.getElementById('yr').textContent = new Date().getFullYear();
-
-  // Scroll-in reveal: fade + small rise as each element enters view, exactly once.
   (function(){
     if (!('IntersectionObserver' in window)) {
       document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
